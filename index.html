@@ -101,12 +101,13 @@ function enemy() {
 
 
 function setup() {
-	createCanvas(600, 400);
-    background(187, 209, 247);
+	var canv = createCanvas(600, 400);
+    	background(187, 209, 247);
+	canv.parent('gamearea');
     
-    for (let i = 0; i < 20; i++) {
-    	enemies[i] = new enemy();
-    }
+    	for (let i = 0; i < 20; i++) {
+    		enemies[i] = new enemy();
+    	}
 }
 
 
@@ -144,7 +145,8 @@ function draw() {
 
 </script>
 
-<h3>Use the arrow keys to dodge the falling blocks</h3>
+	<center><h3>Use the arrow keys to dodge the falling blocks</h3></center>
+	<center id='gamearea'></center>
 
 </body>
 </html>
