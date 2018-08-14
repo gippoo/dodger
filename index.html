@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/addons/p5.dom.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.7.1/p5.min.js'></script>
+</head>
+
+
+<body>
+
+<script>
+var hero = new player();
+var enemies = [];
+var score = 0;
+var bestscore = 0;
+
+function player() {
+	this.x = 290;
+    this.y = 350;
+    this.width = 10;
+    this.height = 10;
+    this.speed = 3;
+    
+    this.create = function() {
+    	fill(0, 255, 0);
+    	rect(this.x,this.y,this.width,this.height);
+        this.bottom = this.y + this.height;
+    	this.top = this.y;
+    	this.left = this.x;
+    	this.right = this.x + this.width;
+    }
+    
+    this.mright = function() {
+    	if ((this.x + this.speed) <= (600 - this.width)) {
+        	this.x += this.speed;
+        }
+    }
+    this.mleft = function() {
+    	if ((this.x - this.speed) >= 0) {
+        	this.x -= this.speed;
+        }
+    }
+    this.mdown = function() {
+    	if ((this.y + this.speed) <= (400 - this.height)) {
+        	this.y += this.speed;
+        }
+    }
+    this.mup = function() {
+    	if ((this.y - this.speed) >= 0) {
+        	this.y -= this.speed;
+        }
+    }
+
+}
+
+function enemy() {
+	this.speed = Math.random() * 6 + 3
+    this.x = Math.random() * 580;
+    this.y = -300;
+    this.height = Math.floor(Math.random() * 100) + 20;
+	this.width = Math.floor(Math.random() * 20) + 10;
+    
+    this.create = function() {
+    	if (this.y > 400+this.height) {
+        	this.speed = Math.random() * 6 + 3;
+        	this.x = Math.random() * 600;
+    		this.y = -300;
+            this.height = Math.floor(Math.random() * 100) + 20;
+			this.width = Math.floor(Math.random() * 20) + 10;
+        }
+    	fill(34, 124, 26);
+    	rect(this.x,this.y,this.width,this.height);
+    }
+    
+    this.drop = function() {
+    	this.y += this.speed;
+    }
+    
+    this.hit = function() {
+    	this.bottom = this.y + this.height;
+        this.top = this.y;
+        this.left = this.x;
+        this.right = this.x + this.width;
+        
+        if ((hero.bottom > this.top) && (hero.top < this.bottom) && (hero.left < this.right) && (hero.right > this.left)) {
+        	hero.x = 290;
+    		hero.y = 350;
+            if (score > bestscore) {
+            	bestscore = score;
+            }
+            score = 0;
+            for (let i = 0; i < 20; i++) {
+    			enemies[i] = new enemy();
+    		}
+        }
+    }
+    
+}
+
+
+
+
+function setup() {
+	createCanvas(600, 400);
+    background(187, 209, 247);
+    
+    for (let i = 0; i < 20; i++) {
+    	enemies[i] = new enemy();
+    }
+}
+
+
+function draw() {
+	background(187, 209, 247);
+	hero.create();
+	for (let baddy of enemies) {
+    	baddy.create();
+        baddy.drop();
+        baddy.hit();
+    }
+    
+   // MOVEMENT
+    if (keyIsDown(RIGHT_ARROW)) {
+    	hero.mright();
+    }
+    if (keyIsDown(LEFT_ARROW)) {
+    	hero.mleft();
+    }
+    if (keyIsDown(DOWN_ARROW)) {
+    	hero.mdown();
+    }
+    if (keyIsDown(UP_ARROW)) {
+    	hero.mup();
+    }
+    
+    score += 1/60;
+    textSize(16);
+    fill(0);
+	text('SCORE: ' + score.toFixed(0), 10, 20);
+    text('BEST: ' + bestscore.toFixed(0), 10, 40);
+}
+
+
+
+</script>
+
+<h3>Use the arrow keys to dodge the falling blocks</h3>
+
+</body>
+</html>
