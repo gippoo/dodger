@@ -11,15 +11,23 @@
 	// INITIALIZE VARIABLES
 	var hero = new player();
 	var enemies = [];
+	var scoreBonus = new powerup();
 	var score = 0;
 	var bestscore = 0;
 	var gamestarted = false;
 	var img;
-	var msgshow = false;
-	var msgtimer = 0;
 	var blockCount = 10;
+	var bonusMsgX;
+	var bonusMsgY;
+	
+	// MESSAGE FLAGS
+	var diffMsgShow = false;
+	var bonusMsgShow = false;
+	
+	// TIMERS
 	var difficultyTimer = 0;
-	var scoreBonus = new powerup();
+	var diffMsgTimer = 0;
+	var bonusMsgTimer = 0;
 
 function preload() {
 	img = loadImage('https://gippoo.github.io/dodger/nervous-pepe-monkas-twitch-emote.png');
@@ -119,12 +127,17 @@ function powerup () {
 		this.right = this.x + this.width;
         
 		if ((hero.bottom > this.top) && (hero.top < this.bottom) && (hero.left < this.right) && (hero.right > this.left)) {
+			bonusMsgX = this.x;
+			bonusMsgY = this.y;
+			bonusMsgTimer = 0;
+			bonusMsgShow = true;
 			score += 10;
 			this.height = 15;
 			this.width = 15;
 			this.x = Math.random() * 570;
 			this.y = Math.random() * 100 + 250;
 		}
+		showBonusMsg();
 	}
 }
 
@@ -194,42 +207,57 @@ function keyPressed() {
 
 function difficulty() {
 	if (difficultyTimer % 3000 == 0 && gamestarted && difficultyTimer != 0) {
-		msgshow = true;
+		diffMsgShow = true;
 		for (let i = blockCount; i < blockCount + 5; i++) {
 			enemies[i] = new enemy();
 		}
 		blockCount += 5
 	}
-	showmsg();
+	showDiffMsg();
 }
 
-function showmsg () {
-	if (msgshow && msgtimer <= 2) {
+function showDiffMsg() {
+	if (diffMsgShow && diffMsgTimer <= 2) {
 		textSize(28);
 		fill(130, 57, 1);
 		text('DANGER: MORE BLOCKS', 150, 50);
-		msgtimer += 1/60;
-		if (msgtimer > 2) {
-			msgshow = false;
-			msgtimer = 0;
+		diffMsgTimer += 1/60;
+		if (diffMsgTimer > 2) {
+			diffMsgShow = false;
+			diffMsgTimer = 0;
 		}
 	}
 }
 
-
-function resetState () {
+function showBonusMsg() {
+	if (bonusMsgShow && bonusMsgTimer <= 1) {
+		textSize(18);
+		fill(0,0,0,255 - bonusMsgTimer * 200);
+		text('+10', bonusMsgX, bonusMsgY - bonusMsgTimer * 15);
+		bonusMsgTimer += 1/60;
+		if (bonusMsgTimer > 2) {
+			bonusMsgShow = false;
+			bonusMsgTimer = 0;
+		}
+	}
+}
+	
+	
+function resetState() {
 	hero = new player();
-	score = 0;
 	enemies = [];
 	for (let i = 0; i < 10; i++) {
     		enemies[i] = new enemy();
 	}
-	msgtimer = 0;
+	scoreBonus = new powerup();
+	score = 0;
 	gamestarted = false;
-	msgshow = false;
 	blockCount = 10;
+	diffMsgShow = false;
+	bonusMsgShow = false;
 	difficultyTimer = 0;
-	var scoreBonus = new powerup();
+	diffMsgTimer = 0;
+	bonusMsgTimer = 0;
 }
 
 
