@@ -187,15 +187,15 @@ function showmsg () {
 
 function resetState () {
 	hero = new player();
-        score = 0;
+	score = 0;
 	enemies = [];
-        for (let i = 0; i < 10; i++) {
+	for (let i = 0; i < 10; i++) {
     		enemies[i] = new enemy();
 	}
-        msgtimer = 0;
-        gamestarted = false;
+	msgtimer = 0;
+	gamestarted = false;
 	msgshow = false;
-        blockcount = 10;
+	blockcount = 10;
 	difficultyTimer = 0;
 }
 
