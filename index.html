@@ -59,47 +59,46 @@ function player() {
 
 function enemy() {
 	this.speed = Math.random() * 6 + 3
-    this.x = Math.random() * 580;
-    this.y = -300;
-    this.height = Math.floor(Math.random() * 100) + 20;
+    	this.x = Math.random() * 580;
+    	this.y = -300;
+    	this.height = Math.floor(Math.random() * 100) + 20;
 	this.width = Math.floor(Math.random() * 20) + 10;
     
-    this.create = function() {
-    	if (this.y > 400+this.height) {
-        	this.speed = Math.random() * 6 + 3;
-        	this.x = Math.random() * 600;
-    		this.y = -300;
-            this.height = Math.floor(Math.random() * 100) + 20;
+    	this.create = function() {
+    		if (this.y > 400+this.height) {
+        		this.speed = Math.random() * 6 + 3;
+        		this.x = Math.random() * 600;
+    			this.y = -300;
+           	 	this.height = Math.floor(Math.random() * 100) + 20;
 			this.width = Math.floor(Math.random() * 20) + 10;
-        }
-    	fill(148, 216, 134);
-    	rect(this.x,this.y,this.width,this.height);
-    }
+        	}
+    		fill(148, 216, 134);
+    		rect(this.x,this.y,this.width,this.height);
+    	}
     
-    this.drop = function() {
-    	this.y += this.speed;
-    }
+    	this.drop = function() {
+    		this.y += this.speed;
+    	}
     
-    this.hit = function() {
-    	this.bottom = this.y + this.height;
-        this.top = this.y;
-        this.left = this.x;
-        this.right = this.x + this.width;
+    	this.hit = function() {
+    		this.bottom = this.y + this.height;
+        	this.top = this.y;
+        	this.left = this.x;
+        	this.right = this.x + this.width;
         
-        if ((hero.bottom > this.top) && (hero.top < this.bottom) && (hero.left < this.right) && (hero.right > this.left)) {
+        	if ((hero.bottom > this.top) && (hero.top < this.bottom) && (hero.left < this.right) && (hero.right > this.left)) {
 			hero = new player();
-            if (score > bestscore) {
-            	bestscore = score;
-            }
-            score = 0;
-            for (let i = 0; i < 15; i++) {
+            		if (score > bestscore) {
+            			bestscore = score;
+            		}
+            		score = 0;
+            		for (let i = 0; i < 15; i++) {
     			enemies[i] = new enemy();
+			}
             
-            gamestarted = false;
+            		gamestarted = false;
     		}
         }
-    }
-    
 }
 
 function setup() {
