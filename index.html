@@ -143,8 +143,8 @@ function setup() {
 function animate() {
 	if (gamestarted) {
 		hero.create();
-		scoreBoost.create();
-		scoreBoost.hit();
+		scoreBonus.create();
+		scoreBonus.hit();
 		for (let baddy of enemies) {
 			baddy.create();
 			baddy.drop();
