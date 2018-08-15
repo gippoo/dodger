@@ -19,6 +19,7 @@
 	var msgtimer = 0;
 	var blockCount = 10;
 	var difficultyTimer = 0;
+	var scoreBonus = new powerup();
 
 function preload() {
 	img = loadImage('https://gippoo.github.io/dodger/nervous-pepe-monkas-twitch-emote.png');
@@ -99,6 +100,33 @@ function enemy() {
 		}
 	}
 }
+	
+function powerup () {
+	this.height = 15;
+	this.width = 15;
+	this.x = Math.random() * 570;
+	this.y = Math.random() * 100 + 250;
+    
+	this.create = function() {
+		fill(255, 0 ,0);
+		rect(this.x,this.y,this.height,this.width);
+	}
+    
+	this.hit = function() {
+		this.bottom = this.y + this.height;
+		this.top = this.y;
+		this.left = this.x;
+		this.right = this.x + this.width;
+        
+		if ((hero.bottom > this.top) && (hero.top < this.bottom) && (hero.left < this.right) && (hero.right > this.left)) {
+			score += 10;
+			this.height = 15;
+			this.width = 15;
+			this.x = Math.random() * 570;
+			this.y = Math.random() * 100 + 250;
+		}
+	}
+}
 
 function setup() {
 	var canv = createCanvas(600, 400);
@@ -108,12 +136,15 @@ function setup() {
     	for (let i = 0; i < 10; i++) {
     		enemies[i] = new enemy();
     	}
+	
 }
 
 
 function animate() {
 	if (gamestarted) {
 		hero.create();
+		scoreBoost.create();
+		scoreBoost.hit();
 		for (let baddy of enemies) {
 			baddy.create();
 			baddy.drop();
@@ -198,6 +229,7 @@ function resetState () {
 	msgshow = false;
 	blockCount = 10;
 	difficultyTimer = 0;
+	var scoreBonus = new powerup();
 }
 
 
