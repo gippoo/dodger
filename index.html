@@ -105,7 +105,7 @@ function setup() {
     	background(187, 209, 247);
 	canv.parent('gamearea');
     
-    	for (let i = 0; i < 15; i++) {
+    	for (let i = 0; i < 10; i++) {
     		enemies[i] = new enemy();
     	}
 }
@@ -161,7 +161,7 @@ function keyPressed() {
 }
 
 function difficulty() {
-	if (difficultyTimer % 6000 == 0 && gamestarted && difficultyTimer != 0) {
+	if (difficultyTimer % 3000 == 0 && gamestarted && difficultyTimer != 0) {
     		msgshow = true;
 		for (let i = blockCount; i < blockCount + 5; i++) {
         		enemies[i] = new enemy();
