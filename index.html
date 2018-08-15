@@ -29,10 +29,10 @@ function player() {
     	this.create = function() {
     		fill(0, 255, 0);
     		image(img,this.x,this.y,this.width,this.height);
-        	this.bottom = this.y + this.height;
-    		this.top = this.y;
-    		this.left = this.x;
-    		this.right = this.x + this.width;
+        	this.bottom = this.y + this.height-15;
+    		this.top = this.y+15;
+    		this.left = this.x+15;
+    		this.right = this.x + this.width-15;
     	}
     
     	this.mright = function() {
