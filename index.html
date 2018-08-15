@@ -12,6 +12,7 @@ var hero = new player();
 var enemies = [];
 var score = 0;
 var bestscore = 0;
+var gamestarted = false;
 
 function player() {
 	this.x = 290;
@@ -49,7 +50,6 @@ function player() {
         	this.y -= this.speed;
         }
     }
-
 }
 
 function enemy() {
@@ -82,22 +82,20 @@ function enemy() {
         this.right = this.x + this.width;
         
         if ((hero.bottom > this.top) && (hero.top < this.bottom) && (hero.left < this.right) && (hero.right > this.left)) {
-        	hero.x = 290;
-    		hero.y = 350;
+			hero = new player();
             if (score > bestscore) {
             	bestscore = score;
             }
             score = 0;
             for (let i = 0; i < 20; i++) {
     			enemies[i] = new enemy();
+            
+            gamestarted = false;
     		}
         }
     }
     
 }
-
-
-
 
 function setup() {
 	var canv = createCanvas(600, 400);
@@ -110,36 +108,52 @@ function setup() {
 }
 
 
+function animate() {
+	if (gamestarted == true) {
+    	hero.create();
+		for (let baddy of enemies) {
+    		baddy.create();
+        	baddy.drop();
+        	baddy.hit();
+    	}
+    
+   		// MOVEMENT
+    	if (keyIsDown(RIGHT_ARROW)) {
+    		hero.mright();
+    	}
+    	if (keyIsDown(LEFT_ARROW)) {
+    		hero.mleft();
+    	}
+    	if (keyIsDown(DOWN_ARROW)) {
+    		hero.mdown();
+    	}
+    	if (keyIsDown(UP_ARROW)) {
+    		hero.mup();
+    	}
+    
+    	score += 1/30;
+    } else {    
+    	textSize(32);
+    	fill(0);
+		text('Press ENTER to start', 145, 200);
+    }
+    	
+}
+
 function draw() {
 	background(187, 209, 247);
-	hero.create();
-	for (let baddy of enemies) {
-    	baddy.create();
-        baddy.drop();
-        baddy.hit();
-    }
-    
-   // MOVEMENT
-    if (keyIsDown(RIGHT_ARROW)) {
-    	hero.mright();
-    }
-    if (keyIsDown(LEFT_ARROW)) {
-    	hero.mleft();
-    }
-    if (keyIsDown(DOWN_ARROW)) {
-    	hero.mdown();
-    }
-    if (keyIsDown(UP_ARROW)) {
-    	hero.mup();
-    }
-    
-    score += 1/60;
+	animate();
     textSize(16);
     fill(0);
 	text('SCORE: ' + score.toFixed(0), 10, 20);
     text('BEST: ' + bestscore.toFixed(0), 10, 40);
 }
 
+function keyPressed() {
+	if (keyCode === ENTER) {
+		gamestarted = true;
+	}
+}
 
 
 </script>
