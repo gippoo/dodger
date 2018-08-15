@@ -14,6 +14,8 @@ var score = 0;
 var bestscore = 0;
 var gamestarted = false;
 var img;
+var msgshow = false;
+var msgtimer = 0;
 
 function preload() {
 	img = loadImage('https://gippoo.github.io/dodger/nervous-pepe-monkas-twitch-emote.png');
@@ -97,6 +99,7 @@ function enemy() {
 			}
             
             		gamestarted = false;
+			msgshow = false;
     		}
         }
 }
@@ -113,7 +116,7 @@ function setup() {
 
 
 function animate() {
-	if (gamestarted == true) {
+	if (gamestarted) {
     	hero.create();
 		for (let baddy of enemies) {
     		baddy.create();
@@ -147,16 +150,40 @@ function animate() {
 function draw() {
 	background(187, 209, 247);
 	animate();
-    textSize(16);
-    fill(0);
+    	textSize(16);
+    	fill(0);
 	text('SCORE: ' + score.toFixed(0), 10, 20);
-    text('BEST: ' + bestscore.toFixed(0), 10, 40);
+    	text('BEST: ' + bestscore.toFixed(0), 10, 40);
+	difficulty();
 }
 
 function keyPressed() {
 	if (keyCode === ENTER) {
 		gamestarted = true;
 	}
+}
+
+function difficulty() {
+	if (score.toFixed(0) == 5) {
+    	msgshow = true;
+		for (let i = 15; i < 20; i++) {
+        	enemies[i] = new enemy();
+        }
+    }
+    showmsg();
+}
+
+function showmsg () {
+	if (msgshow && msgtimer <= 2) {
+    	textSize(24);
+    	fill(255, 0, 0);
+		text('DANGER: MORE BLOCKS', 150, 50);
+        msgtimer += 1/60;
+        if (msgtimer > 2) {
+        	msgshow = false;
+            msgtimer = 0;
+        }
+    }
 }
 
 
