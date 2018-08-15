@@ -8,14 +8,17 @@
 <body>
 
 <script>
-var hero = new player();
-var enemies = [];
-var score = 0;
-var bestscore = 0;
-var gamestarted = false;
-var img;
-var msgshow = false;
-var msgtimer = 0;
+	// INITIALIZE VARIABLES
+	var hero = new player();
+	var enemies = [];
+	var score = 0;
+	var bestscore = 0;
+	var gamestarted = false;
+	var img;
+	var msgshow = false;
+	var msgtimer = 0;
+	var blockCount = 10;
+	var difficultyTimer = 0;
 
 function preload() {
 	img = loadImage('https://gippoo.github.io/dodger/nervous-pepe-monkas-twitch-emote.png');
@@ -61,7 +64,7 @@ function player() {
 
 function enemy() {
 	this.speed = Math.random() * 6 + 3
-    	this.x = Math.random() * 580;
+    	this.x = Math.random() * 590;
     	this.y = -300;
     	this.height = Math.floor(Math.random() * 100) + 20;
 	this.width = Math.floor(Math.random() * 20) + 10;
@@ -69,7 +72,7 @@ function enemy() {
     	this.create = function() {
     		if (this.y > 400+this.height) {
         		this.speed = Math.random() * 6 + 3;
-        		this.x = Math.random() * 600;
+        		this.x = Math.random() * 590;
     			this.y = -300;
            	 	this.height = Math.floor(Math.random() * 100) + 20;
 			this.width = Math.floor(Math.random() * 20) + 10;
@@ -89,18 +92,10 @@ function enemy() {
         	this.right = this.x + this.width;
         
         	if ((hero.bottom > this.top) && (hero.top < this.bottom) && (hero.left < this.right) && (hero.right > this.left)) {
-			hero = new player();
             		if (score > bestscore) {
             			bestscore = score;
             		}
-            		score = 0;
-			enemies = [];
-            		for (let i = 0; i < 15; i++) {
-    			enemies[i] = new enemy();
-			}
-            
-            		gamestarted = false;
-			msgshow = false;
+            		resetState();
     		}
         }
 }
@@ -140,6 +135,7 @@ function animate() {
     		}
     
     		score += 1/30;
+		difficultyTimer += 1;
     	} else {    
     		textSize(32);
     		fill(0);
@@ -165,26 +161,41 @@ function keyPressed() {
 }
 
 function difficulty() {
-	if (score.toFixed(0) == 100) {
-    	msgshow = true;
-		for (let i = 15; i < 20; i++) {
-        	enemies[i] = new enemy();
-        }
-    }
-    showmsg();
+	if (difficultyTimer % 6000 == 0 && gamestarted && difficultyTimer != 0) {
+    		msgshow = true;
+		for (let i = blockCount; i < blockCount + 5; i++) {
+        		enemies[i] = new enemy();
+        	}
+		blockCount += 5
+    	}
+    	showmsg();
 }
 
 function showmsg () {
 	if (msgshow && msgtimer <= 2) {
-    	textSize(28);
-    	fill(130, 57, 1);
+    		textSize(28);
+    		fill(130, 57, 1);
 		text('DANGER: MORE BLOCKS', 150, 50);
-        msgtimer += 1/60;
-        if (msgtimer > 2) {
-        	msgshow = false;
-            msgtimer = 0;
-        }
-    }
+        	msgtimer += 1/60;
+        	if (msgtimer > 2) {
+        		msgshow = false;
+            		msgtimer = 0;
+        	}
+    	}
+}
+
+
+function resetState () {
+	hero = new player();
+        score = 0;
+	enemies = [];
+        for (let i = 0; i < 10; i++) {
+    		enemies[i] = new enemy();
+	}
+        msgtimer = 0;
+        gamestarted = false;
+	msgshow = false;
+        blockcount = 10;
 }
 
 
