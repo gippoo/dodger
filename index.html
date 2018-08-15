@@ -94,6 +94,7 @@ function enemy() {
             			bestscore = score;
             		}
             		score = 0;
+			enemies = [];
             		for (let i = 0; i < 15; i++) {
     			enemies[i] = new enemy();
 			}
@@ -117,33 +118,33 @@ function setup() {
 
 function animate() {
 	if (gamestarted) {
-    	hero.create();
+    		hero.create();
 		for (let baddy of enemies) {
-    		baddy.create();
-        	baddy.drop();
-        	baddy.hit();
-    	}
+    			baddy.create();
+        		baddy.drop();
+        		baddy.hit();
+    		}
     
    		// MOVEMENT
-    	if (keyIsDown(RIGHT_ARROW)) {
-    		hero.mright();
-    	}
-    	if (keyIsDown(LEFT_ARROW)) {
-    		hero.mleft();
-    	}
-    	if (keyIsDown(DOWN_ARROW)) {
-    		hero.mdown();
-    	}
-    	if (keyIsDown(UP_ARROW)) {
-    		hero.mup();
-    	}
+    		if (keyIsDown(RIGHT_ARROW)) {
+    			hero.mright();
+    		}
+    		if (keyIsDown(LEFT_ARROW)) {
+    			hero.mleft();
+    		}
+    		if (keyIsDown(DOWN_ARROW)) {
+    			hero.mdown();
+    		}
+    		if (keyIsDown(UP_ARROW)) {
+    			hero.mup();
+    		}
     
-    	score += 1/30;
-    } else {    
-    	textSize(32);
-    	fill(0);
+    		score += 1/30;
+    	} else {    
+    		textSize(32);
+    		fill(0);
 		text('Press ENTER to start', 145, 200);
-    }
+    	}
     	
 }
 
