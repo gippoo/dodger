@@ -36,22 +36,22 @@ function player() {
     	}
     
     	this.mright = function() {
-    		if ((this.x + this.speed) <= (615 - this.width)) {
+    		if ((this.x + this.speed) <= (610 - this.width)) {
         		this.x += this.speed;
         	}
     	}
     	this.mleft = function() {
-    		if ((this.x - this.speed) >= -15) {
+    		if ((this.x - this.speed) >= -10) {
         		this.x -= this.speed;
         	}
     	}
     	this.mdown = function() {
-    		if ((this.y + this.speed) <= (415 - this.height)) {
+    		if ((this.y + this.speed) <= (412 - this.height)) {
         		this.y += this.speed;
         	}
     	}
     	this.mup = function() {
-    		if ((this.y - this.speed) >= -15) {
+    		if ((this.y - this.speed) >= -10) {
         		this.y -= this.speed;
         	}
     	}
