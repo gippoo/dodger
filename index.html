@@ -64,47 +64,47 @@ function player() {
 
 function enemy() {
 	this.speed = Math.random() * 6 + 3
-    	this.x = Math.random() * 590;
-    	this.y = -300;
-    	this.height = Math.floor(Math.random() * 100) + 20;
+	this.x = Math.random() * 590;
+	this.y = -300;
+	this.height = Math.floor(Math.random() * 100) + 20;
 	this.width = Math.floor(Math.random() * 20) + 10;
-    
-    	this.create = function() {
+	
+	this.create = function() {
     		if (this.y > 400+this.height) {
-        		this.speed = Math.random() * 6 + 3;
-        		this.x = Math.random() * 590;
-    			this.y = -300;
-           	 	this.height = Math.floor(Math.random() * 100) + 20;
+			this.speed = Math.random() * 6 + 3;
+			this.x = Math.random() * 590;
+			this.y = -300;
+			this.height = Math.floor(Math.random() * 100) + 20;
 			this.width = Math.floor(Math.random() * 20) + 10;
-        	}
-    		fill(148, 216, 134);
-    		rect(this.x,this.y,this.width,this.height);
-    	}
+		}
+		fill(148, 216, 134);
+		rect(this.x,this.y,this.width,this.height);
+	}
     
-    	this.drop = function() {
-    		this.y += this.speed;
-    	}
+	this.drop = function() {
+		this.y += this.speed;
+	}
     
-    	this.hit = function() {
-    		this.bottom = this.y + this.height;
-        	this.top = this.y;
-        	this.left = this.x;
-        	this.right = this.x + this.width;
+	this.hit = function() {
+		this.bottom = this.y + this.height;
+		this.top = this.y;
+		this.left = this.x;
+		this.right = this.x + this.width;
         
-        	if ((hero.bottom > this.top) && (hero.top < this.bottom) && (hero.left < this.right) && (hero.right > this.left)) {
-            		if (score > bestscore) {
-            			bestscore = score;
-            		}
-            		resetState();
-    		}
-        }
+		if ((hero.bottom > this.top) && (hero.top < this.bottom) && (hero.left < this.right) && (hero.right > this.left)) {
+			if (score > bestscore) {
+				bestscore = score;
+			}
+			resetState();
+		}
+	}
 }
 
 function setup() {
 	var canv = createCanvas(600, 400);
-    	background(187, 209, 247);
+	background(187, 209, 247);
 	canv.parent('gamearea');
-    
+	
     	for (let i = 0; i < 10; i++) {
     		enemies[i] = new enemy();
     	}
@@ -113,44 +113,45 @@ function setup() {
 
 function animate() {
 	if (gamestarted) {
-    		hero.create();
+		hero.create();
 		for (let baddy of enemies) {
-    			baddy.create();
-        		baddy.drop();
-        		baddy.hit();
-    		}
+			baddy.create();
+			baddy.drop();
+			baddy.hit();
+		}
     
-   		// MOVEMENT
-    		if (keyIsDown(RIGHT_ARROW)) {
-    			hero.mright();
-    		}
-    		if (keyIsDown(LEFT_ARROW)) {
-    			hero.mleft();
-    		}
-    		if (keyIsDown(DOWN_ARROW)) {
-    			hero.mdown();
-    		}
-    		if (keyIsDown(UP_ARROW)) {
-    			hero.mup();
-    		}
+		// MOVEMENT
+		if (keyIsDown(RIGHT_ARROW)) {
+			hero.mright();
+		}
+		if (keyIsDown(LEFT_ARROW)) {
+			hero.mleft();
+		}
+		if (keyIsDown(DOWN_ARROW)) {
+			hero.mdown();
+		}
+		if (keyIsDown(UP_ARROW)) {
+			hero.mup();
+		}
     
     		score += 1/30;
 		difficultyTimer += 1;
-    	} else {    
-    		textSize(32);
-    		fill(0);
+		
+	} else {    
+		textSize(32);
+		fill(0);
 		text('Press ENTER to start', 145, 200);
-    	}
+	}
     	
 }
 
 function draw() {
 	background(187, 209, 247);
 	animate();
-    	textSize(16);
-    	fill(0);
+	textSize(16);
+	fill(0);
 	text('SCORE: ' + score.toFixed(0), 10, 20);
-    	text('BEST: ' + bestscore.toFixed(0), 10, 40);
+	text('BEST: ' + bestscore.toFixed(0), 10, 40);
 	difficulty();
 }
 
@@ -162,26 +163,26 @@ function keyPressed() {
 
 function difficulty() {
 	if (difficultyTimer % 3000 == 0 && gamestarted && difficultyTimer != 0) {
-    		msgshow = true;
+		msgshow = true;
 		for (let i = blockCount; i < blockCount + 5; i++) {
-        		enemies[i] = new enemy();
-        	}
+			enemies[i] = new enemy();
+		}
 		blockCount += 5
-    	}
-    	showmsg();
+	}
+	showmsg();
 }
 
 function showmsg () {
 	if (msgshow && msgtimer <= 2) {
-    		textSize(28);
-    		fill(130, 57, 1);
+		textSize(28);
+		fill(130, 57, 1);
 		text('DANGER: MORE BLOCKS', 150, 50);
-        	msgtimer += 1/60;
-        	if (msgtimer > 2) {
-        		msgshow = false;
-            		msgtimer = 0;
-        	}
-    	}
+		msgtimer += 1/60;
+		if (msgtimer > 2) {
+			msgshow = false;
+			msgtimer = 0;
+		}
+	}
 }
 
 
